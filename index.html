@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <title>Óia o Rango • Cobranças & WhatsApp</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="bg-slate-100 text-slate-900">
+  <div class="min-h-screen flex">
+
+    <!-- SIDEBAR -->
+    <aside class="w-64 bg-slate-900 text-slate-100 flex flex-col">
+      <div class="px-4 py-4 border-b border-slate-800">
+        <div class="text-lg font-bold tracking-tight">
+          Óia o Rango
+        </div>
+        <div class="text-xs text-slate-400">
+          Cobranças & WhatsApp
+        </div>
+      </div>
+
+      <nav class="flex-1 px-2 py-4 space-y-1 text-sm">
+        <button class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2 active"
+                data-section="dashboard">
+          <span>📊</span> <span>Visão geral</span>
+        </button>
+
+        <button class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2"
+                data-section="clientes">
+          <span>👤</span> <span>Clientes</span>
+        </button>
+
+        <button class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2"
+                data-section="assinaturas">
+          <span>🧾</span> <span>Assinaturas</span>
+        </button>
+
+        <button class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2"
+                data-section="produtos">
+          <span>📦</span> <span>Produtos</span>
+        </button>
+
+        <button class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2"
+                data-section="mensagem">
+          <span>✉️</span> <span>Mensagem padrão</span>
+        </button>
+
+        <button class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2"
+                data-section="agendamentos">
+          <span>⏰</span> <span>Agendamentos</span>
+        </button>
+
+        <button class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2"
+                data-section="historico">
+          <span>📚</span> <span>Histórico de envios</span>
+        </button>
+
+        <button class="nav-btn w-full text-left px-3 py-2 rounded-lg hover:bg-slate-800 flex items-center gap-2"
+                data-section="status">
+          <span>⚙️</span> <span>Status do sistema</span>
+        </button>
+      </nav>
+
+      <div class="px-4 py-3 border-t border-slate-800 text-[11px] text-slate-400">
+        Rodando em localhost / Railway • v1.0
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="flex-1 flex flex-col">
+
+      <!-- TOPBAR -->
+      <header class="h-14 bg-white border-b border-slate-200 flex items-center justify-between px-5">
+        <div>
+          <h1 class="text-base font-semibold">Central de cobranças</h1>
+          <p class="text-xs text-slate-500">
+            Gerencie clientes, assinaturas, mensagens e agendamentos.
+          </p>
+        </div>
+        <div class="flex items-center gap-2 text-xs">
+          <span id="whatsapp-status-dot" class="inline-block w-2 h-2 rounded-full bg-red-500"></span>
+          <span id="whatsapp-status-text" class="text-slate-600">WhatsApp desconectado</span>
+        </div>
+      </header>
+
+      <!-- CONTENT WRAPPER -->
+      <section class="flex-1 overflow-y-auto p-4 md:p-6 space-y-4">
+
+        <!-- DASHBOARD / VISÃO GERAL -->
+        <section id="section-dashboard" class="section-block">
+          <div class="grid gap-4 md:grid-cols-3">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+              <div class="text-xs text-slate-500 mb-1">Clientes</div>
+              <div class="text-2xl font-semibold" id="card-total-clientes">0</div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+              <div class="text-xs text-slate-500 mb-1">Assinaturas ativas</div>
+              <div class="text-2xl font-semibold" id="card-total-assinaturas">0</div>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+              <div class="text-xs text-slate-500 mb-1">Envios (hoje)</div>
+              <div class="text-2xl font-semibold" id="card-envios-hoje">0</div>
+            </div>
+          </div>
+
+          <div class="mt-6 grid gap-4 md:grid-cols-2">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+              <h2 class="text-sm font-semibold mb-3">Próximas cobranças</h2>
+              <ul id="dashboard-proximas-cobrancas" class="text-xs space-y-1 max-h-60 overflow-y-auto text-slate-700">
+                <li class="text-slate-400">Nenhuma cobrança carregada ainda.</li>
+              </ul>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4">
+              <h2 class="text-sm font-semibold mb-3">Últimos envios</h2>
+              <ul id="dashboard-ultimos-envios" class="text-xs space-y-1 max-h-60 overflow-y-auto text-slate-700">
+                <li class="text-slate-400">Nenhum envio registrado ainda.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- CLIENTES -->
+        <section id="section-clientes" class="section-block hidden">
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-4">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-sm font-semibold">Clientes</h2>
+              <span class="text-[11px] text-slate-500">
+                Cadastre clientes para vincular assinaturas e agendamentos.
+              </span>
+            </div>
+
+            <form id="form-cliente" class="flex flex-col gap-2 mb-4">
+              <div class="grid md:grid-cols-3 gap-2">
+                <input class="input" name="nome" placeholder="Nome do cliente" required />
+                <input class="input" name="whatsapp" placeholder="WhatsApp (ex: 12999999999)" required />
+                <input class="input" name="email" placeholder="E-mail (opcional)" />
+              </div>
+              <button class="btn-primary w-fit text-xs">
+                Salvar cliente
+              </button>
+            </form>
+
+            <div>
+              <h3 class="text-xs font-semibold mb-2 text-slate-600">Lista de clientes</h3>
+              <ul id="lista-clientes" class="text-xs space-y-1 max-h-64 overflow-y-auto"></ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- ASSINATURAS -->
+        <section id="section-assinaturas" class="section-block hidden">
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-4">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-sm font-semibold">Assinaturas</h2>
+              <span class="text-[11px] text-slate-500">
+                Configure planos recorrentes e datas de cobrança.
+              </span>
+            </div>
+
+            <form id="form-assinatura" class="flex flex-col gap-2 mb-4">
+              <div class="grid md:grid-cols-2 gap-2">
+                <select name="cliente_id" class="input" required>
+                  <option value="">Selecione um cliente</option>
+                </select>
+                <input class="input" name="nome_plano" placeholder="Nome do plano (ex: Mensal Pro)" required />
+              </div>
+
+              <div class="grid md:grid-cols-3 gap-2">
+                <input class="input" name="valor_total" type="number" step="0.01" placeholder="Valor total (ex: 89.90)" required />
+                <input class="input" name="data_proxima_cobranca" type="date" required />
+                <select name="recorrencia" class="input" required>
+                  <option value="mensal">Mensal</option>
+                  <option value="semanal">Semanal</option>
+                  <option value="anual">Anual</option>
+                </select>
+              </div>
+
+              <p class="text-[11px] text-slate-500">
+                * Produtos do plano podem ser configurados depois se necessário.
+              </p>
+
+              <button class="btn-primary w-fit text-xs">
+                Salvar assinatura
+              </button>
+            </form>
+
+            <div class="mt-4">
+              <h3 class="text-xs font-semibold mb-2 text-slate-600">Assinaturas cadastradas</h3>
+              <ul id="lista-assinaturas" class="text-xs space-y-1 max-h-80 overflow-y-auto"></ul>
+            </div>
+
+            <div class="mt-4 pt-3 border-t border-slate-200">
+              <h3 class="text-xs font-semibold mb-2 text-slate-600">Testar cobrança de hoje</h3>
+              <button id="btn-cobranca-agora" class="btn-secondary text-xs">
+                Rodar cobrança de hoje manualmente
+              </button>
+            </div>
+          </div>
+        </section>
+
+        <!-- PRODUTOS -->
+        <section id="section-produtos" class="section-block hidden">
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-4">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-sm font-semibold">Produtos</h2>
+              <span class="text-[11px] text-slate-500">
+                Cadastre itens que compõem as assinaturas (ex: Sistema Delivery, PDV, etc.).
+              </span>
+            </div>
+
+            <form id="form-produto" class="flex flex-col gap-2 mb-4">
+              <div class="grid md:grid-cols-2 gap-2">
+                <input class="input" name="nome" placeholder="Nome do produto" required />
+                <input class="input" name="valor" type="number" step="0.01" placeholder="Valor (ex: 49.90)" required />
+              </div>
+              <button class="btn-primary w-fit text-xs">
+                Salvar produto
+              </button>
+            </form>
+
+            <div>
+              <h3 class="text-xs font-semibold mb-2 text-slate-600">Produtos cadastrados</h3>
+              <ul id="lista-produtos" class="text-xs space-y-1 max-h-80 overflow-y-auto"></ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- MENSAGEM PADRÃO -->
+        <section id="section-mensagem" class="section-block hidden">
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-4">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-sm font-semibold">Mensagem padrão de cobrança</h2>
+              <span class="text-[11px] text-slate-500">
+                Use as variáveis: {nome}, {plano}, {valor}, {vencimento}, {dias}
+              </span>
+            </div>
+
+            <form id="form-mensagem" class="flex flex-col gap-2">
+              <input class="input" name="descricao" placeholder="Descrição (ex: Cobrança padrão)" required />
+              <textarea class="input h-32" name="texto" required></textarea>
+              <button class="btn-primary w-fit text-xs">
+                Salvar mensagem
+              </button>
+            </form>
+          </div>
+        </section>
+
+        <!-- AGENDAMENTOS -->
+        <section id="section-agendamentos" class="section-block hidden">
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-4">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-sm font-semibold">Agendar mensagens</h2>
+              <span class="text-[11px] text-slate-500">
+                Envie lembretes, avisos e campanhas de forma automática.
+              </span>
+            </div>
+
+            <form id="form-agendamento" class="flex flex-col gap-2 mb-4">
+              <select name="cliente_id" class="input" required>
+                <option value="">Selecione o cliente</option>
+              </select>
+
+              <textarea name="mensagem" class="input h-24"
+                placeholder="Mensagem (use {nome} e {hoje} se quiser)" required></textarea>
+
+              <div class="grid md:grid-cols-2 gap-2">
+                <select name="tipo" class="input" required>
+                  <option value="unico">Único (data específica)</option>
+                  <option value="diario">Diário</option>
+                  <option value="semanal">Semanal</option>
+                  <option value="mensal">Mensal</option>
+                </select>
+                <input name="horario" type="time" class="input" required />
+              </div>
+
+              <div class="grid md:grid-cols-3 gap-2 text-xs">
+                <input name="data_unica" type="date" class="input hidden" placeholder="Data específica" />
+                <input name="dia_semana" type="number" min="0" max="6" class="input hidden"
+                  placeholder="Dia da semana (0=Dom, 1=Seg...)" />
+                <input name="dia_mes" type="number" min="1" max="31" class="input hidden"
+                  placeholder="Dia do mês (1-31)" />
+              </div>
+
+              <button class="btn-primary w-fit text-xs">
+                Criar agendamento
+              </button>
+            </form>
+
+            <div>
+              <h3 class="text-xs font-semibold mb-2 text-slate-600">Agendamentos ativos</h3>
+              <ul id="lista-agendamentos" class="text-xs space-y-1 max-h-80 overflow-y-auto"></ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- HISTÓRICO -->
+        <section id="section-historico" class="section-block hidden">
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-4">
+            <div class="flex items-center justify-between mb-3">
+              <h2 class="text-sm font-semibold">Histórico de envios</h2>
+              <button id="btn-recarregar-envios" class="btn-secondary text-xs">
+                Recarregar
+              </button>
+            </div>
+
+            <ul id="lista-envios" class="text-xs space-y-1 max-h-[480px] overflow-y-auto"></ul>
+          </div>
+        </section>
+
+        <!-- STATUS + QR CODE -->
+        <section id="section-status" class="section-block hidden">
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 mb-4">
+            <h2 class="text-sm font-semibold mb-3">Status do sistema</h2>
+            <p class="text-xs text-slate-600 mb-2">
+              Acompanhe o estado da API, conexão com WhatsApp e QR Code.
+            </p>
+            <div id="status-detalhado" class="text-xs text-slate-700 space-y-1">
+              <div>API: <span id="status-api-text">...</span></div>
+              <div>WhatsApp: <span id="status-whatsapp-text">...</span></div>
+            </div>
+
+            <!-- QR CODE ÁREA -->
+            <div id="qr-area" class="mt-6 text-center hidden">
+              <h3 class="text-sm font-semibold mb-2">QR Code para conexão</h3>
+              <p class="text-[11px] text-slate-500 mb-2">
+                Escaneie este QR no seu WhatsApp para conectar o bot.
+              </p>
+              <img id="qr-image" class="mx-auto w-64 h-64 border rounded-lg shadow bg-white p-2" />
+              <p class="text-[11px] text-slate-400 mt-2">
+                Se o QR não aparecer, aguarde alguns segundos ou atualize a página.
+              </p>
+            </div>
+
+          </div>
+        </section>
+
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
