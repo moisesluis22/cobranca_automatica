@@ -1,0 +1,114 @@
+/* =====================================================================
+   SISTEMA DE COBRANÇAS • ÓIA O RANGO
+   Arquivo: public/styles.css
+   Styling extra além do Tailwind (ajustes visuais e interações)
+   ===================================================================== */
+
+/* ---------------------------------------------------------------
+   RESET BÁSICO
+---------------------------------------------------------------- */
+* {
+  box-sizing: border-box;
+}
+
+/* ---------------------------------------------------------------
+   INPUTS E BOTÕES (estilo uniforme)
+---------------------------------------------------------------- */
+.input {
+  @apply border border-slate-300 rounded-lg px-3 py-2 text-sm;
+}
+.input:focus {
+  @apply outline-none border-blue-500 ring-1 ring-blue-200;
+}
+
+.btn-primary {
+  @apply bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 transition text-xs;
+}
+
+.btn-secondary {
+  @apply bg-slate-700 text-white px-3 py-1 rounded-lg hover:bg-slate-800 transition;
+}
+
+.btn-danger {
+  @apply bg-red-600 text-white px-3 py-1 rounded-lg hover:bg-red-700 transition;
+}
+
+/* ---------------------------------------------------------------
+   MENU LATERAL (estado ativo)
+---------------------------------------------------------------- */
+.nav-btn.active {
+  background-color: rgb(30 41 59); /* slate-800 */
+  font-weight: 600;
+}
+
+/* animação ao clicar */
+.nav-btn {
+  transition: background 0.2s ease, color 0.2s ease, padding-left 0.2s ease;
+}
+.nav-btn:hover {
+  padding-left: 1rem;
+}
+
+/* ---------------------------------------------------------------
+   BLOCO DE SEÇÃO (cards principais)
+---------------------------------------------------------------- */
+.section-block {
+  animation: fadeIn 0.25s ease-out forwards;
+  transform-origin: top;
+}
+
+/* ---------------------------------------------------------------
+   ANIMAÇÕES
+---------------------------------------------------------------- */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------------------------------------------------------------
+   SCROLL BONITO
+---------------------------------------------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e5e7eb; /* slate-200 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #9ca3af; /* slate-400 */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #6b7280; /* slate-500 */
+}
+
+/* ---------------------------------------------------------------
+   TABELAS / LISTAS
+---------------------------------------------------------------- */
+ul li {
+  padding: 4px 6px;
+  border-radius: 6px;
+}
+ul li:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+ul li:hover {
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+/* ---------------------------------------------------------------
+   TOPBAR STATUS DOT
+---------------------------------------------------------------- */
+#whatsapp-status-dot {
+  transition: background 0.3s ease;
+}
